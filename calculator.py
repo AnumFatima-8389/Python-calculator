@@ -1,0 +1,101 @@
+import tkinter as tk
+root = tk.Tk()
+
+root.title("Calculator")
+root.geometry("500x650+750+10")
+root.resizable(False,False)
+root.configure(bg="#dfe3ee")
+#------------------------------------------FUNCTIONS-------------------------------:
+operationsList=['+','-','/','x','=']
+valuesList=[]
+def enter(value):
+    text.insert(tk.END,value)
+def compute():
+    enter(' = ')
+    value='0'
+    intvalue=0
+    for c in text.get("1.0","end-1c"):
+        if c == ' ':
+            continue
+        if c not in operationsList:
+            read=True 
+        else:
+            read=False
+        if(read):
+            value=value+c
+        else:
+            intvalue=int(value)
+            valuesList.append(intvalue)
+            value='0'
+            if(c!='='):
+                operation=c
+        if len(valuesList)>=2:
+            if(operation=='+'):
+                result=valuesList[-1]+valuesList[-2]
+            elif(operation=='-'):
+                result=valuesList[-1]-valuesList[-2]
+            elif(operation=='x'):
+                result=valuesList[-1]*valuesList[-2]
+            else:
+                result=valuesList[-1]/valuesList[-2]
+        else:
+            result=0
+    text.insert(tk.END,str(result))
+# -------------------------------------------------------------------------------------
+# the block to enter values to be algebraically manipulated
+f1 = tk.Frame(root,bg="#03396c")
+f1.pack(side="top",fill="x",padx=5,pady=5)
+text = tk.Text(f1,bg="#b3cde0",font=("Arial",20),height=5)
+text.pack(padx=10,pady=10,fill="x")
+
+
+# lets make the buttons now
+f2 = tk.Frame(root,bg="#03396c")
+f2.pack(fill="both",padx=8)
+for i in range(4):
+    f2.columnconfigure(i,weight=1)
+#--------------------------enter-------------------------
+benter=tk.Button(f2,bg="#005b96",activebackground="#011f4b",cursor="hand2",activeforeground="white",fg="white",text="=",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=compute)
+#----------------------------------------------------------
+
+b1=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="1",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("1"))
+b2=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="2",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("2"))
+b3=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="3",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("3"))
+bplus=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="+",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" + "))
+
+b1.grid(row=0,column=0)
+b2.grid(row=0,column=1)
+b3.grid(row=0,column=2)
+bplus.grid(row=0,column=3)
+
+b4=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="4",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("4"))
+b5=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="5",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("5"))
+b6=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="6",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("6"))
+bminus=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="-",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" - "))
+
+b4.grid(row=1,column=0)
+b5.grid(row=1,column=1)
+b6.grid(row=1,column=2)
+bminus.grid(row=1,column=3)
+
+bmult=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="x",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" x "))
+b9=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="9",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("9"))
+b7=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="7",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("7"))
+b8=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="8",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("8"))
+
+b7.grid(row=2,column=0)
+b8.grid(row=2,column=1)
+b9.grid(row=2,column=2)
+bmult.grid(row=2,column=3)
+
+bpoint=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text=".",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("."))
+b0=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="0",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("0"))
+
+bdivide=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="/",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" / "))
+
+bpoint.grid(row=3,column=0)
+b0.grid(row=3,column=1)
+benter.grid(row=3,column=2)
+bdivide.grid(row=3,column=3)
+
+root.mainloop()
