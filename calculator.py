@@ -7,6 +7,7 @@ root.resizable(False,False)
 root.configure(bg="#dfe3ee")
 #------------------------------------------FUNCTIONS-------------------------------:
 operationsList=['+','-','/','x','=']
+actualOpList=[]
 valuesList=[]
 def enter(value):
     text.insert(tk.END,value)
@@ -33,24 +34,37 @@ def compute():
             valuesList.append(intvalue)
             value='0'
             if(c!='=' and c in operationsList):
-                operation=c
+                global actualOpList
+                actualOpList.append(c)
         if len(valuesList)>=2:
-            if(operation=='+'):
-                result=0
-                for i in valuesList:
+            result=valuesList[0]
+            count=1
+            for i in valuesList[1:]:
+                if (actualOpList[count-1]=='+'):
                     result=result+i
-            elif(operation=='-'):
-                result=valuesList[0]
-                for i in valuesList[1:]:
+                elif (actualOpList[count-1]=='-'):
                     result=result-i
-            elif(operation=='x'):
-                result=valuesList[0]
-                for i in valuesList[1:]:
+                elif (actualOpList[count-1]=='x'):
                     result=result*i
-            else:
-                result=valuesList[0]
-                for i in valuesList[1:]:
+                elif (actualOpList[count-1]=='/'):
                     result=result/i
+                count=count+1
+            # if(operation=='+'):
+            #     result=0
+            #     for i in valuesList:
+            #         result=result+i
+            # elif(operation=='-'):
+            #     result=valuesList[0]
+            #     for i in valuesList[1:]:
+            #         result=result-i
+            # elif(operation=='x'):
+            #     result=valuesList[0]
+            #     for i in valuesList[1:]:
+            #         result=result*i
+            # else:
+            #     result=valuesList[0]
+            #     for i in valuesList[1:]:
+            #         result=result/i 
     text.insert(tk.END,str(result))
     
 # clear button
@@ -107,7 +121,7 @@ b8.grid(row=2,column=1)
 b9.grid(row=2,column=2)
 bmult.grid(row=2,column=3)
 
-bclear=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="C",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=clear)
+bclear=tk.Button(f2,bg="#ffc0cb",activebackground="#f08080",cursor="hand2",activeforeground="white",text="C",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=clear)
 b0=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="0",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("0"))
 
 bdivide=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="/",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" / "))
