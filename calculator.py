@@ -14,7 +14,12 @@ def compute():
     enter(' = ')
     value='0'
     intvalue=0
-    for c in text.get("1.0","end-1c"):
+    operation=None
+    global result
+    result=0
+    global valuesList
+    valuesList=[]
+    for c in text.get("1.0",tk.END):
         if c == ' ':
             continue
         if c not in operationsList:
@@ -27,20 +32,34 @@ def compute():
             intvalue=int(value)
             valuesList.append(intvalue)
             value='0'
-            if(c!='='):
+            if(c!='=' and c in operationsList):
                 operation=c
         if len(valuesList)>=2:
             if(operation=='+'):
-                result=valuesList[-1]+valuesList[-2]
+                result=0
+                for i in valuesList:
+                    result=result+i
             elif(operation=='-'):
-                result=valuesList[-1]-valuesList[-2]
+                result=valuesList[0]
+                for i in valuesList[1:]:
+                    result=result-i
             elif(operation=='x'):
-                result=valuesList[-1]*valuesList[-2]
+                result=valuesList[0]
+                for i in valuesList[1:]:
+                    result=result*i
             else:
-                result=valuesList[-1]/valuesList[-2]
-        else:
-            result=0
+                result=valuesList[0]
+                for i in valuesList[1:]:
+                    result=result/i
     text.insert(tk.END,str(result))
+    
+# clear button
+def clear():
+    global valuesList,result
+    valuesList.clear()
+    result=0
+    text.delete("1.0",tk.END)
+    
 # -------------------------------------------------------------------------------------
 # the block to enter values to be algebraically manipulated
 f1 = tk.Frame(root,bg="#03396c")
@@ -88,12 +107,12 @@ b8.grid(row=2,column=1)
 b9.grid(row=2,column=2)
 bmult.grid(row=2,column=3)
 
-bpoint=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text=".",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("."))
+bclear=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="C",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=clear)
 b0=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="0",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter("0"))
 
 bdivide=tk.Button(f2,bg="#6497b1",activebackground="#011f4b",cursor="hand2",activeforeground="white",text="/",bd=5,relief="ridge",font=(("Arial",20)),width=20,height=2,command=lambda:enter(" / "))
 
-bpoint.grid(row=3,column=0)
+bclear.grid(row=3,column=0)
 b0.grid(row=3,column=1)
 benter.grid(row=3,column=2)
 bdivide.grid(row=3,column=3)
