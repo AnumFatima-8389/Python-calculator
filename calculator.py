@@ -27,6 +27,8 @@ def compute():
     result = 0
     global valuesList
     valuesList = []
+    zeroDivision = False
+    
     for c in text.get("1.0", tk.END):
         if c == " ":
             continue
@@ -48,9 +50,6 @@ def compute():
             for c in actualOpList:
                 if c == "x":
                     index = actualOpList.index(c)
-                    print("ValuesList before: ",valuesList)
-                    print("index: ",index,"index-1 pe: ",valuesList[index-1])
-                    print("valuesList[index+1]=",valuesList[index+1])
                     valuesList[index : index + 2] = [
                         valuesList[index] * valuesList[index + 1]
                     ]
@@ -58,11 +57,14 @@ def compute():
                    
                 elif c == "/":
                     index = actualOpList.index(c)
-                    valuesList[index : index + 2] = [
-                        valuesList[index] / valuesList[index + 1]
-                    ]
-                    del actualOpList[index]
-            print("After multiplication and division: Actual Op list: ",actualOpList," valuesList: ",valuesList)       
+                    if valuesList[index+1] != 0:
+                        valuesList[index : index + 2] = [
+                            valuesList[index] / valuesList[index + 1]
+                        ]
+                        del actualOpList[index]  
+                    else:
+                        zeroDivision=True
+                        break
             result = valuesList[0]
             count = 1
             if actualOpList:
@@ -72,7 +74,10 @@ def compute():
                     elif actualOpList[count - 1] == "-":
                         result = result - i
                     count = count + 1
-    text.insert(tk.END, str(result))
+    if zeroDivision == False:
+        text.insert(tk.END, str(result))
+    else:
+        text.insert(tk.END,"\nCan not divide by zero")
 
 
 # clear button
